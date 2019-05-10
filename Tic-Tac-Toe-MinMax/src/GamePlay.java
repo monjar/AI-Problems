@@ -15,7 +15,7 @@ public class GamePlay {
         boolean gameIsOn = true;
         char turn = starter;
         while (gameIsOn){
-            
+
 
         }
     }
