@@ -6,20 +6,29 @@ public class GameBoard {
 
     GameBoard(int boardSize){
         this.boardSize = boardSize;
-        cells = new char[boardSize][boardSize];
+        this.cells = new char[boardSize][boardSize];
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                cells[i][j] = '-';
+                cells[i][j] = ' ';
             }
         }
     }
     GameBoard(char[][] cells){
-        int size = cells.length;
-        this.cells = Arrays.copyOf(cells ,size);
+        this.boardSize =  cells.length;
+        this.cells =  new char[boardSize][boardSize];
+        //this.cells = Arrays.copyOf(cells ,size);
+        for (int i = 0; i < this.boardSize; i++) {
+            for (int j = 0; j < this.boardSize ; j++) {
+                this.cells[i][j]= cells[i][j];
+            }
+        }
+    }
+    public boolean putOnBoard(char c, Cord cord){
+        return putOnBoard(c, cord.getRow(), cord.getCol());
     }
 
-    public boolean putOnBoard(char c, int i, int j){
-        if (cells [i][j] == '-'){
+    private boolean putOnBoard(char c, int i, int j){
+        if (cells [i][j] == ' '){
             cells [i][j] = Character.toLowerCase(c);
             return true;
         }
@@ -29,7 +38,7 @@ public class GameBoard {
 
     public char winner(){
         if (!this.isFinished())
-            return '-';
+            return ' ';
 
         for (int i = 0; i < boardSize ; i++) {
             int xScore = 0, oScore=0;
@@ -83,11 +92,11 @@ public class GameBoard {
         return 'd';
     }
 
-    private boolean isFinished(){
+    public boolean isFinished(){
         boolean done = true;
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize ; j++) {
-                if (cells [i][j] == '-')
+                if (cells [i][j] == ' ')
                     done = false;
             }
         }
@@ -95,11 +104,40 @@ public class GameBoard {
     }
 
     public GameBoard makeCopy(){
-        GameBoard gb = new GameBoard(this.cells);
-        return gb;
+        return new GameBoard(this.cells);
     }
 
     public int getBoardSize() {
         return boardSize;
+    }
+
+    public void print(){
+        System.out.println("\n");
+        System.out.print("--");
+        for (int j = 0; j < this.boardSize  ; j++) {
+            if (j == this.boardSize - 1)
+                System.out.print("---");
+            else
+                System.out.print("----");
+        }
+
+        System.out.println();
+        for (int i = 0; i < this.boardSize ; i++) {
+            System.out.print("| ");
+            for (int j = 0; j < this.boardSize; j++) {
+                System.out.print(cells[i][j] + " | ");
+            }
+            System.out.println();
+            System.out.print("--");
+            for (int j = 0; j < this.boardSize  ; j++) {
+                if (j == this.boardSize - 1)
+                    System.out.print("---");
+                else
+                    System.out.print("----");
+            }
+            System.out.println();
+        }
+        System.out.println("\n");
+
     }
 }

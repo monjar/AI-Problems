@@ -1,23 +1,50 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
 public class GamePlay {
 
-    private boolean isXBot;
-    private boolean isOBot;
+    private Map <Character , Boolean> isBot = new HashMap<>();
     private final char starter = 'x';
     private GameBoard board;
 
     GamePlay(boolean isXBot, boolean isOBot, int boardSize){
-        this.isOBot = isOBot;
-        this.isXBot = isXBot;
+        isBot.put('x' ,isXBot);
+        isBot.put('o' ,isOBot);
         this.board = new GameBoard(boardSize);
     }
 
     public void start(){
-        boolean gameIsOn = true;
         char turn = starter;
-        while (gameIsOn){
+        while (!board.isFinished()){
+            makeMove(turn);
+            board.print();
+            if (turn == 'x')
+                turn = 'o';
+            else
+                turn = 'x';
+        }
+    }
 
+    private void makeMove(char turn){
+        System.out.println("It's "+turn+"'s turn: ");
+        if (isBot.get(turn)) {
+            MiniMaxAgent agent = new MiniMaxAgent(turn);
+            agent.buildTree(turn, board.makeCopy(),0 );
+            board.putOnBoard(turn, agent.getAgentMove());
+        }
+        else {
+            boolean done = false;
+            while (!done) {
+                Scanner in = new Scanner(System.in);
+                int i = in.nextInt(), j = in.nextInt();
+                done = board.putOnBoard(turn, new Cord(i, j));
+                if (!done)
+                    System.out.println("Wrong move!");
+            }
 
         }
+
     }
 
 

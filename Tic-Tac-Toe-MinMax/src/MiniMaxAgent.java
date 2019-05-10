@@ -12,15 +12,15 @@ public class MiniMaxAgent {
             return 0;
         else if (winner == side)
             return 1;
-        else if (winner != '-' )
+        else if (winner != ' ' )
             return -1;
 
         else {
-            int max = -1 ,min = 1;
+            int max = -2 ,min = 2;
             for (int i = 0; i < board.getBoardSize() ; i++) {
                 for (int j = 0; j < board.getBoardSize() ; j++) {
                     GameBoard gb = board.makeCopy();
-                    if (gb.putOnBoard(turn , i , j)){
+                    if (gb.putOnBoard(turn , new Cord(i,j))){
                         int res;
                         if (turn == 'x')
                             res = buildTree('o' , gb , depth+1);
@@ -47,6 +47,7 @@ public class MiniMaxAgent {
 
     }
 
-
-
+    public Cord getAgentMove() {
+        return agentMove;
+    }
 }
