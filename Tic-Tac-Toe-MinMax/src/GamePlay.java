@@ -42,9 +42,13 @@ public class GamePlay {
             while (!done) {
                 Scanner in = new Scanner(System.in);
                 int i = in.nextInt(), j = in.nextInt();
-                done = board.putOnBoard(turn, new Cord(i, j));
-                if (!done)
+                if ( i > board.getBoardSize() || i < 0 || j > board.getBoardSize() || j < 0 )
                     System.out.println("Wrong move!");
+                else {
+                    done = board.putOnBoard(turn, new Cord(i, j));
+                    if (!done)
+                        System.out.println("Wrong move!");
+                }
             }
 
         }
