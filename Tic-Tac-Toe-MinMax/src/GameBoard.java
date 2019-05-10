@@ -37,9 +37,6 @@ public class GameBoard {
     }
 
     public char winner(){
-        if (!this.isFinished())
-            return ' ';
-
         for (int i = 0; i < boardSize ; i++) {
             int xScore = 0, oScore=0;
             for (int j = 0; j < boardSize; j++) {
@@ -89,6 +86,8 @@ public class GameBoard {
             return 'x';
         if (oScore == 3)
             return 'o';
+        if (!this.isFinished())
+            return ' ';
         return 'd';
     }
 

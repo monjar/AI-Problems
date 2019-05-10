@@ -16,7 +16,7 @@ public class GamePlay {
 
     public void start(){
         char turn = starter;
-        while (!board.isFinished()){
+        while (board.winner() == ' '){
             makeMove(turn);
             board.print();
             if (turn == 'x')
@@ -24,6 +24,10 @@ public class GamePlay {
             else
                 turn = 'x';
         }
+        if (board.winner() == 'd')
+            System.out.println("It's a DRAW!");
+        else
+            System.out.println(Character.toUpperCase(board.winner()) + " Wins!");
     }
 
     private void makeMove(char turn){
@@ -46,7 +50,4 @@ public class GamePlay {
         }
 
     }
-
-
-
 }
